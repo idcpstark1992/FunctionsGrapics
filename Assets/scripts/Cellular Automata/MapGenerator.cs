@@ -8,6 +8,13 @@ namespace CellularAutomata
         [SerializeField] private int _height;
         [Range(0f, 100f)]
         [SerializeField] private float   _fillPercent;
+        
+        [Range(1, 10)]
+        [SerializeField] private int _smoothMinAmount;
+
+        [Range(1, 10)]
+        [SerializeField] private int _smoothMaxAmount;
+
         private int[,] _mapPoints;
         [SerializeField] private bool    _useSeed;
         [SerializeField] private string  _seed;
@@ -44,11 +51,17 @@ namespace CellularAutomata
         private void SmoothMaps()
         {
             for (int x = 0; x < _width; x++)
+            {
                 for (int y = 0; y < _height; y++)
                 {
                     int neighborswalltiles = GetWallsCount(x, y);
-                    _mapPoints[x, y] = neighborswalltiles > 4 ? 1 : 0;
+                    if (neighborswalltiles > _smoothMaxAmount)
+                        _mapPoints[x, y] = 1;
+                    else if (neighborswalltiles < _smoothMinAmount)
+                        _mapPoints[x, y] = 0;
                 }
+            }
+               
                     
         }
 
@@ -56,10 +69,10 @@ namespace CellularAutomata
         {
             int _wallsCount = 0;
             for(int neighbourx = _gridX -1; neighbourx <=_gridX+1; neighbourx++)
-                for (int neighboury = _gridY - 1; neighboury <= neighboury + 1; neighboury++)
+                for (int neighboury = _gridY - 1; neighboury <= _gridY + 1; neighboury++)
                     if(neighbourx >=0 && neighbourx< _width && neighboury >=0 && neighboury< _height)
                     {
-                        if(neighbourx != _gridX && neighboury != _gridY)
+                        if(neighbourx != _gridX || neighboury != _gridY)
                         {
                             _wallsCount += _mapPoints[neighbourx, neighboury];
                         }
@@ -85,6 +98,11 @@ namespace CellularAutomata
                     }
             }
             
+        }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+                GenerateMap();
         }
     }
 

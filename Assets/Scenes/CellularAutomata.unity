@@ -289,11 +289,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c0ec73283f46b4e823e662d067b21a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 60
-  _height: 60
-  _fillPercent: 59.9
+  _width: 150
+  _height: 80
+  _fillPercent: 41.5
+  _smoothMinAmount: 4
+  _smoothMaxAmount: 4
   _useSeed: 1
-  _seed: IvanCardenas
+  _seed: Karen
 --- !u!4 &1410159736
 Transform:
   m_ObjectHideFlags: 0
